@@ -41,7 +41,6 @@ client.on('ready', () => {
     console.log('READY');
 });
 
-let serverDoFileName = 'xdm.json';
 let serverConfigFileName = 'xdm.json';
 var config = {};
 
