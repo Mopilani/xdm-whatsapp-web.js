@@ -4,6 +4,7 @@ const http = require('http');
 const crypto = require('crypto');
 const { Writable } = require('stream');
 const fs = require('fs');
+const xserv = require('./x_server');
 
 const client = new Client({
     authStrategy: new LocalAuth(),
@@ -40,6 +41,7 @@ client.on('ready', () => {
     console.log('READY');
 });
 
+let serverDoFileName = 'xdm.json';
 let serverConfigFileName = 'xdm.json';
 var config = {};
 
@@ -87,6 +89,20 @@ function bytesToHex(bytes) {
     }
     return hexString;
 }
+
+fs.readFile(serverConfigFileName, (err, data) => {
+    if (err != null) {
+        return console.error(err);
+    }
+    config = JSON.parse(data);
+
+    console.log(`Server Config: ${config}`);
+    console.log('---------------------');
+
+    logMsgs = config['logMsgs'] ?? false;
+    chatNumber = config['chatnum'];
+
+});
 
 fs.readFile(serverConfigFileName, (err, data) => {
     if (err != null) {
@@ -732,3 +748,5 @@ function postR(path, msg, body) {
         msg.reply(e);
     }
 }
+
+xserv.runServer();
