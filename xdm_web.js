@@ -4,7 +4,9 @@ const http = require('http');
 const crypto = require('crypto');
 const { Writable } = require('stream');
 const fs = require('fs');
-const xserv = require('./x_server');
+// const xserv = require('./x_server');
+
+const server_do = require('./server_do');
 
 const client = new Client({
     authStrategy: new LocalAuth(),
@@ -40,6 +42,8 @@ client.on('auth_failure', msg => {
 client.on('ready', () => {
     console.log('READY');
 });
+
+server_do.loadServerDo();
 
 let serverConfigFileName = 'xdm.json';
 var config = {};
@@ -748,4 +752,4 @@ function postR(path, msg, body) {
     }
 }
 
-xserv.runServer();
+// xserv.runServer();

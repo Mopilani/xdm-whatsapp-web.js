@@ -5,6 +5,9 @@ const app = express();
 const host = "0.0.0.0";
 const port = 8156;
 
+// This server must response for the dart xdm-bot-server
+// 1- respond for sending groups contents periodicly
+
 app.get("/", function (req, res) {
     res.sendFile(__dirname + "/index.html");
 });
@@ -32,7 +35,6 @@ app.get("/video", function (req, res) {
 });
 
 export function runServer() {
-
     app.listen(8000, function () {
         console.log("Listening on port 8000!");
     });
