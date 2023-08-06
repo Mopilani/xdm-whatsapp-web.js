@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const serverDoFilename = 'do.json';
 
-var doContent;
+var doContent = {};
 
 /** Do Content Arch:
  * { gid : {
@@ -15,8 +15,11 @@ var doContent;
  * }
  *  */
 
-function addToDo(gid, content) {
-
+export function addToDo(gid, content, time) {
+    doContent[gid] = {
+        content: content,
+        time: time,
+    };
 }
 
 export function loadServerDo() {

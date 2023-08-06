@@ -4,7 +4,7 @@ const http = require('http');
 const crypto = require('crypto');
 const { Writable } = require('stream');
 const fs = require('fs');
-// const xserv = require('./x_server');
+const xserv = require('./x_server');
 
 const server_do = require('./server_do');
 
@@ -14,7 +14,7 @@ const client = new Client({
     puppeteer: {
         // args: ['--proxy-server=proxy-server-that-requires-authentication.example.com'],
         args: ['--disable-gpu', '--no-sandbox'],
-        // headless: false
+        headless: false,
     }
 });
 
@@ -597,6 +597,18 @@ client.on('message_create', async (msg) => {
             sendCommand(msg, author, `author`);
         } else if (msg.body.toLowerCase() === 'authors') {
             getAuthors(msg);
+        } else if (msg.body.toLowerCase().startsWith('serverdo:')) {
+            var author = msg.from;
+            if (author.includes('@g.us')) {
+                author = msg.author;
+            }
+            sendCommand(msg, author, `todo`);
+            // chatNumber = chatNumber.includes('@c.us') ? chatNumber : `${chatNumber}@c.us`;
+            // msg.reply(`Chat number setted to ${chatNumber}`);
+            // var todo = msg.body.slice('serverdo:'.length);
+            // var todoSegs = todo.split(':');
+            // var date = Date.parse(todoSegs[2]);
+            // server_do.addToDo(todoSegs[0], todoSegs[1], );
         } else if (msg.body.toLowerCase() === 'commands') {
             getCommands(msg);
         } else if (msg.body.startsWith('@')) {
@@ -752,4 +764,4 @@ function postR(path, msg, body) {
     }
 }
 
-// xserv.runServer();
+xserv.runServer();
