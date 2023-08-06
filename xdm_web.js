@@ -597,7 +597,7 @@ client.on('message_create', async (msg) => {
             sendCommand(msg, author, `author`);
         } else if (msg.body.toLowerCase() === 'authors') {
             getAuthors(msg);
-        } else if (msg.body.toLowerCase().startsWith('serverdo:')) {
+        } else if (msg.body.toLowerCase().startsWith('todo:')) {
             var author = msg.from;
             if (author.includes('@g.us')) {
                 author = msg.author;
