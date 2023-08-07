@@ -11,6 +11,7 @@ const fs = require('fs');
 // const http = require("http");
 const express = require("express");
 const app = express();
+app.use(express.json()) 
 
 const xport = 8156;
 
@@ -21,7 +22,9 @@ app.post("/post", function (req, res) {
     // res.sendFile(__dirname + "/index.html");
     var receiver = req.headers['receiver'];
     var content = req.body;
-    client.sendMessage(receiver, content);
+    console.log(`receiver: ${receiver}, content: ${content}`);
+    client.sendMessage(receiver, content.content.toString());
+    res.end();
 });
 
 function runServer() {
