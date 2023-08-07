@@ -17,8 +17,11 @@ const xport = 8156;
 // This server must response for the dart xdm-bot-server
 // 1- respond for sending groups contents periodicly
 
-app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/index.html");
+app.post("/post", function (req, res) {
+    // res.sendFile(__dirname + "/index.html");
+    var receiver = req.headers['receiver'];
+    var content = req.body;
+    client.sendMessage(receiver, content);
 });
 
 function runServer() {
@@ -36,7 +39,6 @@ const client = new Client({
         headless: false,
     }
 });
-
 
 client.initialize();
 
@@ -616,12 +618,12 @@ client.on('message_create', async (msg) => {
             sendCommand(msg, author, `author`);
         } else if (msg.body.toLowerCase() === 'authors') {
             getAuthors(msg);
-        // } else if (msg.body.toLowerCase().startsWith('todo:')) {
-        //     var author = msg.from;
-        //     if (author.includes('@g.us')) {
-        //         author = msg.author;
-        //     }
-        //     sendCommand(msg, author, `todo`);
+            // } else if (msg.body.toLowerCase().startsWith('todo:')) {
+            //     var author = msg.from;
+            //     if (author.includes('@g.us')) {
+            //         author = msg.author;
+            //     }
+            //     sendCommand(msg, author, `todo`);
             // chatNumber = chatNumber.includes('@c.us') ? chatNumber : `${chatNumber}@c.us`;
             // msg.reply(`Chat number setted to ${chatNumber}`);
             // var todo = msg.body.slice('serverdo:'.length);
@@ -634,11 +636,12 @@ client.on('message_create', async (msg) => {
             var segs = msg.body.slice('@'.length);
             var lesson = segs[0];
         } else if (msg.body.startsWith('!')) {
+            var body = {};
             var author = msg.from;
             if (author.includes('@g.us')) {
+                body['gid'] = author;
                 author = msg.author;
             }
-            var body = {};
             var command;
             if (msg.body.includes(':')) {
                 command = msg.body.slice('!'.length).split(':')[0];
@@ -690,7 +693,8 @@ function greating(msg) {
 }
 
 var proxyServicePort = 8185;
-var proxyServiceHost = '167.172.167.245';
+// var proxyServiceHost = '167.172.167.245';
+var proxyServiceHost = '0.0.0.0';
 var proxyServiceRef = `http://${proxyServiceHost}:${proxyServicePort}`;
 
 function getOptions(path) {
