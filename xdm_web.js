@@ -39,7 +39,7 @@ const client = new Client({
     puppeteer: {
         // args: ['--proxy-server=proxy-server-that-requires-authentication.example.com'],
         args: ['--disable-gpu', '--no-sandbox'],
-        // headless: false,
+        headless: false,
     }
 });
 
@@ -642,9 +642,11 @@ client.on('message_create', async (msg) => {
             var body = {};
             var author = msg.from;
             if (author.includes('@g.us')) {
+                console.log(`GID=${author}`);
                 body['gid'] = author;
                 author = msg.author;
             }
+            console.log(`MSG-Author${author}`);
             var command;
             if (msg.body.includes(':')) {
                 command = msg.body.slice('!'.length).split(':')[0];
