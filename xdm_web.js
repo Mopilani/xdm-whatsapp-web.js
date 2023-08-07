@@ -39,7 +39,7 @@ const client = new Client({
     puppeteer: {
         // args: ['--proxy-server=proxy-server-that-requires-authentication.example.com'],
         args: ['--disable-gpu', '--no-sandbox'],
-        headless: false,
+        // headless: false,
     }
 });
 
