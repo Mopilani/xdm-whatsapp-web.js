@@ -4,9 +4,28 @@ const http = require('http');
 const crypto = require('crypto');
 const { Writable } = require('stream');
 const fs = require('fs');
-const xserv = require('./x_server');
+// const xserv = require('./x_server');
 
-const server_do = require('./server_do');
+// const server_do = require('./server_do');
+
+// const http = require("http");
+const express = require("express");
+const app = express();
+
+const xport = 8156;
+
+// This server must response for the dart xdm-bot-server
+// 1- respond for sending groups contents periodicly
+
+app.get("/", function (req, res) {
+    res.sendFile(__dirname + "/index.html");
+});
+
+function runServer() {
+    app.listen(xport, function () {
+        console.log(`Listening on port ${xport}!`);
+    });
+}
 
 const client = new Client({
     authStrategy: new LocalAuth(),
@@ -43,7 +62,7 @@ client.on('ready', () => {
     console.log('READY');
 });
 
-server_do.loadServerDo();
+// server_do.loadServerDo();
 
 let serverConfigFileName = 'xdm.json';
 var config = {};
@@ -597,12 +616,12 @@ client.on('message_create', async (msg) => {
             sendCommand(msg, author, `author`);
         } else if (msg.body.toLowerCase() === 'authors') {
             getAuthors(msg);
-        } else if (msg.body.toLowerCase().startsWith('todo:')) {
-            var author = msg.from;
-            if (author.includes('@g.us')) {
-                author = msg.author;
-            }
-            sendCommand(msg, author, `todo`);
+        // } else if (msg.body.toLowerCase().startsWith('todo:')) {
+        //     var author = msg.from;
+        //     if (author.includes('@g.us')) {
+        //         author = msg.author;
+        //     }
+        //     sendCommand(msg, author, `todo`);
             // chatNumber = chatNumber.includes('@c.us') ? chatNumber : `${chatNumber}@c.us`;
             // msg.reply(`Chat number setted to ${chatNumber}`);
             // var todo = msg.body.slice('serverdo:'.length);
@@ -764,4 +783,5 @@ function postR(path, msg, body) {
     }
 }
 
-xserv.runServer();
+// xserv.runServer();
+runServer();
