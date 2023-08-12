@@ -27,6 +27,15 @@ app.post("/post", function (req, res) {
     res.end();
 });
 
+app.post("/ssh", function (req, res) {
+    // res.sendFile(__dirname + "/index.html");
+    var receiver = req.headers['receiver'];
+    var content = req.body;
+    console.log(`receiver: ${receiver}, content: ${content}`);
+    client.sendMessage(receiver, content.content.toString());
+    res.end();
+});
+
 function runServer() {
     app.listen(xport, function () {
         console.log(`Listening on port ${xport}!`);
